@@ -4,6 +4,6 @@ import { defineConfig } from "kysely-ctl";
 export default defineConfig({
   dialect: narutwitterDBDialect,
   migrations: {
-    migrationFolder: "src/lib/posts/db/migrations",
+    migrationFolder: "src/lib/posts/service/db/migrations",
   },
 });

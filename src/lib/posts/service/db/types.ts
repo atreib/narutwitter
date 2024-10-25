@@ -9,6 +9,7 @@ import {
 export interface NarutwitterDatabase {
   users: UserTable;
   posts: PostTable;
+  sessions: SessionTable;
 }
 
 export interface UserTable {
@@ -29,3 +30,13 @@ export interface PostTable {
 export type Post = Selectable<PostTable>;
 export type NewPost = Insertable<PostTable>;
 export type PostUpdate = Updateable<PostTable>;
+
+export interface SessionTable {
+  id: Generated<number>;
+  email: string;
+  hashedToken: string;
+  createdAt: ColumnType<Date, string | undefined, never>;
+}
+export type Session = Selectable<SessionTable>;
+export type NewSession = Insertable<SessionTable>;
+export type SessionUpdate = Updateable<SessionTable>;
