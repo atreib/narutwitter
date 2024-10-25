@@ -1,19 +1,14 @@
 import { Home } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
+import { Suspense } from "react";
+import { TimelineSkeleton } from "@/lib/posts/components/timeline-skeleton";
+import { Timeline } from "@/lib/posts/components/timeline";
+import { NewPost } from "@/lib/posts/components/new-post";
 
-export default function TimelinePage() {
+export default async function TimelinePage() {
   return (
-    <div className="min-h-screen bg-muted">
+    <div className="min-h-screen bg-background">
       <nav className="bg-card shadow">
         <div className="max-w-3xl mx-auto flex justify-between h-16 px-8">
           <div className="flex">
@@ -27,8 +22,11 @@ export default function TimelinePage() {
           </div>
           <div className="flex items-center">
             <Avatar>
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage
+                src="https://i.pravatar.cc/150?img=11"
+                alt="@atreib"
+              />
+              <AvatarFallback>AT</AvatarFallback>
             </Avatar>
           </div>
         </div>
@@ -37,47 +35,11 @@ export default function TimelinePage() {
       <main className="max-w-3xl mx-auto py-6 px-6">
         <div className="flex space-x-4">
           <div className="flex-grow space-y-4">
-            <Card>
-              <CardHeader>
-                <h2>Cry me a river, bruh</h2>
-              </CardHeader>
-              <CardContent>
-                <div>
-                  <Textarea rows={3} />
-                </div>
-              </CardContent>
-              <CardFooter className="justify-end">
-                <Button>Post</Button>
-              </CardFooter>
-            </Card>
+            <NewPost />
 
-            {[1, 2, 3].map((post) => (
-              <Card key={post}>
-                <CardHeader>
-                  <div className="flex space-x-4">
-                    <Avatar>
-                      <AvatarImage
-                        src={`https://i.pravatar.cc/150?img=${post}`}
-                        alt={`User ${post}`}
-                      />
-                      <AvatarFallback>U{post}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <CardTitle className="text-sm font-semibold">
-                        User {post}
-                      </CardTitle>
-                      <p className="text-sm">@user{post} · 2h</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p>
-                    This is a sample post content. It can be much longer and
-                    include various types of media.
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+            <Suspense fallback={<TimelineSkeleton />}>
+              <Timeline />
+            </Suspense>
           </div>
         </div>
       </main>
