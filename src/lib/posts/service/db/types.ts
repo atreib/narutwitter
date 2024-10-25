@@ -34,7 +34,7 @@ export type PostUpdate = Updateable<PostTable>;
 export interface SessionTable {
   id: Generated<number>;
   email: string;
-  hashedToken: string;
+  token: string;
   createdAt: ColumnType<Date, string | undefined, never>;
 }
 export type Session = Selectable<SessionTable>;

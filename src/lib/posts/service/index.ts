@@ -45,12 +45,12 @@ const postsService: IPostsService = {
 };
 
 const sessionsService: ISessionsService = {
-  createSession: async ({ email, hashedToken }) => {
+  createSession: async ({ email, token }) => {
     await db
       .insertInto("sessions")
       .values({
         email,
-        hashedToken,
+        token,
         createdAt: new Date().toISOString(),
       })
       .execute();
@@ -58,11 +58,11 @@ const sessionsService: ISessionsService = {
   deleteSession: async ({ email }) => {
     await db.deleteFrom("sessions").where("email", "=", email).execute();
   },
-  getSession: async ({ email, hashedToken }) => {
+  getSession: async ({ email, token }) => {
     const session = await db
       .selectFrom("sessions")
       .where("email", "=", email)
-      .where("hashedToken", "=", hashedToken)
+      .where("token", "=", token)
       .selectAll()
       .executeTakeFirst();
     return session;

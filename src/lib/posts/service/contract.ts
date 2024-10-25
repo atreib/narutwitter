@@ -11,14 +11,11 @@ type IPostsService = {
 };
 
 type ISessionsService = {
-  createSession: (props: {
-    email: string;
-    hashedToken: string;
-  }) => Promise<void>;
+  createSession: (props: { email: string; token: string }) => Promise<void>;
   deleteSession: (props: { email: string }) => Promise<void>;
   getSession: (props: {
     email: string;
-    hashedToken: string;
+    token: string;
   }) => Promise<Session | undefined>;
 };
 
