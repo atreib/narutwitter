@@ -13,10 +13,7 @@ export async function Timeline() {
           <CardHeader>
             <div className="flex space-x-4">
               <Avatar>
-                <AvatarImage
-                  src={`https://i.pravatar.cc/150?img=1${post.author.id}`}
-                  alt={post.author.handle}
-                />
+                <AvatarImage src={""} alt={post.author.handle} />
                 <AvatarFallback>
                   {post.author.name.slice(0, 2).toUpperCase()}
                 </AvatarFallback>

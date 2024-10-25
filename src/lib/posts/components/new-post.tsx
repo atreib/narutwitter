@@ -23,13 +23,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { User } from "@/lib/users/types";
 
 const formSchema = z.object({
   content: z.string().min(1).max(128),
   character: z.string().min(1).max(128),
 });
 
-export function NewPost() {
+type Props = {
+  userId: User["id"];
+};
+
+export function NewPost({ userId }: Props) {
   const [pageMode, setPageMode] = React.useState<"idle" | "loading">("idle");
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -43,7 +48,7 @@ export function NewPost() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (pageMode === "loading") return;
     setPageMode("loading");
-    await createPost(values.content, values.character);
+    await createPost(values.content, values.character, userId);
     form.reset();
     setPageMode("idle");
   }

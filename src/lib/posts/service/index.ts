@@ -1,6 +1,6 @@
 import { translate } from "@/lib/ai";
-import { IPostsService, ISessionsService } from "./contract";
-import { db } from "./db/database";
+import { IPostsService } from "./types";
+import { db } from "../../db/database";
 
 const postsService: IPostsService = {
   getPosts: async () => {
@@ -44,29 +44,4 @@ const postsService: IPostsService = {
   },
 };
 
-const sessionsService: ISessionsService = {
-  createSession: async ({ email, token }) => {
-    await db
-      .insertInto("sessions")
-      .values({
-        email,
-        token,
-        createdAt: new Date().toISOString(),
-      })
-      .execute();
-  },
-  deleteSession: async ({ email }) => {
-    await db.deleteFrom("sessions").where("email", "=", email).execute();
-  },
-  getSession: async ({ email, token }) => {
-    const session = await db
-      .selectFrom("sessions")
-      .where("email", "=", email)
-      .where("token", "=", token)
-      .selectAll()
-      .executeTakeFirst();
-    return session;
-  },
-};
-
-export { postsService, sessionsService };
+export { postsService };
