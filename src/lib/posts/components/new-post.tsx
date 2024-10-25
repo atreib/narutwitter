@@ -16,9 +16,17 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { createPost } from "./new-post-actions";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   content: z.string().min(1).max(128),
+  character: z.string().min(1).max(128),
 });
 
 export function NewPost() {
@@ -28,13 +36,14 @@ export function NewPost() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       content: "",
+      character: "Naruto Uzumaki",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (pageMode === "loading") return;
     setPageMode("loading");
-    await createPost(values.content);
+    await createPost(values.content, values.character);
     form.reset();
     setPageMode("idle");
   }
@@ -71,7 +80,39 @@ export function NewPost() {
               )}
             />
 
-            <footer className="flex justify-end mt-4">
+            <footer className="flex justify-between mt-4">
+              <FormField
+                control={form.control}
+                name="character"
+                render={({ field }) => (
+                  <FormItem>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Character" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Naruto Uzumaki">
+                          Naruto Uzumaki
+                        </SelectItem>
+                        <SelectItem value="Sasuke Uchiha">
+                          Sasuke Uchiha
+                        </SelectItem>
+                        <SelectItem value="Sakura Haruno">
+                          Sakura Haruno
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <Button
                 form="new-post-form"
                 type="submit"

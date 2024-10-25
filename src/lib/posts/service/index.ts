@@ -1,3 +1,4 @@
+import { translate } from "@/lib/ai";
 import { IPostsService } from "./contract";
 import { db } from "./db/database";
 
@@ -27,12 +28,14 @@ const postsService: IPostsService = {
       },
     }));
   },
-  createPost: async ({ authorId, content }) => {
+  createPost: async ({ authorId, content, character }) => {
+    const translatedContent = await translate(content, character);
     const createdPost = await db
       .insertInto("posts")
       .values({
         authorId,
-        content,
+        content: translatedContent ?? content,
+        createdAt: new Date().toISOString(),
       })
       .returningAll()
       .executeTakeFirst();
