@@ -1,5 +1,4 @@
 import * as crypto from "crypto";
-import * as bcrypt from "bcrypt";
 
 const SECRET_KEY = process.env.AUTH_SECRET_KEY;
 
@@ -20,9 +19,4 @@ export async function verifyToken(token: string) {
     Buffer.from(signature),
     Buffer.from(expectedSignature)
   );
-}
-
-export async function hashToken(token: string) {
-  const saltRounds = 12;
-  return bcrypt.hash(token, saltRounds);
 }
