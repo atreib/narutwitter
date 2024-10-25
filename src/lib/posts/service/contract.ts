@@ -1,4 +1,5 @@
 import { Post } from "../types";
+import { Session } from "./db/types";
 
 type IPostsService = {
   getPosts: () => Promise<Post[]>;
@@ -9,4 +10,16 @@ type IPostsService = {
   }) => Promise<Omit<Post, "author">>;
 };
 
-export type { IPostsService };
+type ISessionsService = {
+  createSession: (props: {
+    email: string;
+    hashedToken: string;
+  }) => Promise<void>;
+  deleteSession: (props: { email: string }) => Promise<void>;
+  getSession: (props: {
+    email: string;
+    hashedToken: string;
+  }) => Promise<Session | undefined>;
+};
+
+export type { IPostsService, ISessionsService };

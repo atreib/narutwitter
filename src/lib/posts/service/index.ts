@@ -1,5 +1,5 @@
 import { translate } from "@/lib/ai";
-import { IPostsService } from "./contract";
+import { IPostsService, ISessionsService } from "./contract";
 import { db } from "./db/database";
 
 const postsService: IPostsService = {
@@ -44,4 +44,29 @@ const postsService: IPostsService = {
   },
 };
 
-export { postsService };
+const sessionsService: ISessionsService = {
+  createSession: async ({ email, hashedToken }) => {
+    await db
+      .insertInto("sessions")
+      .values({
+        email,
+        hashedToken,
+        createdAt: new Date().toISOString(),
+      })
+      .execute();
+  },
+  deleteSession: async ({ email }) => {
+    await db.deleteFrom("sessions").where("email", "=", email).execute();
+  },
+  getSession: async ({ email, hashedToken }) => {
+    const session = await db
+      .selectFrom("sessions")
+      .where("email", "=", email)
+      .where("hashedToken", "=", hashedToken)
+      .selectAll()
+      .executeTakeFirst();
+    return session;
+  },
+};
+
+export { postsService, sessionsService };
