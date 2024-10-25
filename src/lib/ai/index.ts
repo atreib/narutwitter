@@ -8,7 +8,7 @@ export async function translate(message: string, character: string) {
     messages: [
       {
         role: "system",
-        content: `Take the following post and rewrite it as if ${character} from the anime Naruto were talking with some other character from Naruto. Maintain the core meaning, but add ${character}’s tone.`,
+        content: `Take the following post and rewrite it as if ${character} from the anime Pokemon were saying it.`,
       },
       {
         role: "user",

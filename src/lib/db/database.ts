@@ -1,8 +1,8 @@
-import { NarutwitterDatabase } from "./types";
+import { Database } from "./types";
 import { Pool } from "pg";
 import { Kysely, PostgresDialect } from "kysely";
 
-export const narutwitterDBDialect = new PostgresDialect({
+export const dbDialect = new PostgresDialect({
   pool: new Pool({
     database: process.env.POSTS_DB_DATABASE,
     host: process.env.POSTS_DB_HOST,
@@ -13,6 +13,6 @@ export const narutwitterDBDialect = new PostgresDialect({
   }),
 });
 
-export const db = new Kysely<NarutwitterDatabase>({
-  dialect: narutwitterDBDialect,
+export const db = new Kysely<Database>({
+  dialect: dbDialect,
 });

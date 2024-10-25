@@ -25,6 +25,18 @@ import {
 } from "@/components/ui/select";
 import { User } from "@/lib/users/types";
 
+const pokemonCharacters = [
+  "Pikachu",
+  "Charmander",
+  "Bulbasaur",
+  "Squirtle",
+  "Jigglypuff",
+  "Meowth",
+  "Psyduck",
+  "Clefairy",
+  "Vaporeon",
+];
+
 const formSchema = z.object({
   content: z.string().min(1).max(128),
   character: z.string().min(1).max(128),
@@ -41,7 +53,7 @@ export function NewPost({ userId }: Props) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       content: "",
-      character: "Naruto Uzumaki",
+      character: pokemonCharacters[0],
     },
   });
 
@@ -101,15 +113,11 @@ export function NewPost({ userId }: Props) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="Naruto Uzumaki">
-                          Naruto Uzumaki
-                        </SelectItem>
-                        <SelectItem value="Sasuke Uchiha">
-                          Sasuke Uchiha
-                        </SelectItem>
-                        <SelectItem value="Sakura Haruno">
-                          Sakura Haruno
-                        </SelectItem>
+                        {pokemonCharacters.map((character) => (
+                          <SelectItem key={character} value={character}>
+                            {character}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
 

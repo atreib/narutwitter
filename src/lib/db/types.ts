@@ -1,6 +1,6 @@
 import { ColumnType, Generated } from "kysely";
 
-export interface NarutwitterDatabase {
+export interface Database {
   users: UserTable;
   posts: PostTable;
   sessions: SessionTable;
