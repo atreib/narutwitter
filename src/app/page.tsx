@@ -5,8 +5,19 @@ import { Suspense } from "react";
 import { TimelineSkeleton } from "@/lib/posts/components/timeline-skeleton";
 import { Timeline } from "@/lib/posts/components/timeline";
 import { NewPost } from "@/lib/posts/components/new-post";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { authService } from "@/lib/auth/service";
 
 export default async function TimelinePage() {
+  const authenticatedUser = await authService.requireCookieSession();
+
   return (
     <div className="min-h-screen bg-background">
       <nav className="bg-card shadow">
@@ -21,13 +32,25 @@ export default async function TimelinePage() {
             </Link>
           </div>
           <div className="flex items-center">
-            <Avatar>
-              <AvatarImage
-                src="https://i.pravatar.cc/150?img=11"
-                alt="@atreib"
-              />
-              <AvatarFallback>AT</AvatarFallback>
-            </Avatar>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarImage src={""} alt={authenticatedUser.handle} />
+                  <AvatarFallback>
+                    {authenticatedUser.name.slice(0, 2).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>
+                  Hi, {authenticatedUser.name} 👋🏻
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <a href="/api/auth/logout">Sign out</a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </nav>
@@ -35,7 +58,7 @@ export default async function TimelinePage() {
       <main className="max-w-3xl mx-auto py-6 px-6">
         <div className="flex space-x-4">
           <div className="flex-grow space-y-4">
-            <NewPost />
+            <NewPost userId={authenticatedUser.id} />
 
             <Suspense fallback={<TimelineSkeleton />}>
               <Timeline />
